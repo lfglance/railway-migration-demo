@@ -19,9 +19,9 @@ CACHE_HOST = getenv("CACHE_HOST", "127.0.0.1")
 CACHE_PORT = getenv("CACHE_PORT", "6379")
 
 # Database
-DB_PASS = getenv("DB_PASS", "myapp")
-DB_USER = getenv("DB_USER", "myapp")
-DB_NAME = getenv("DB_NAME", "myapp")
+DB_PASS = getenv("DB_PASS", "rps")
+DB_USER = getenv("DB_USER", "rps")
+DB_NAME = getenv("DB_NAME", "rps")
 DB_HOST = getenv("DB_HOST", "127.0.0.1")
 DB_PORT = getenv("DB_PORT", "5432")
 SQLALCHEMY_DATABASE_URI = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"

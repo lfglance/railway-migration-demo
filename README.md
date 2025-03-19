@@ -1,3 +1,13 @@
+# railway migration demo
+
+This application is for learning the Railway platform, simulating a migration from AWS to Railway.
+
+The demo application is backend API which is used by a mobile application. It consists of the following technologies:
+* Quart API (Python, async Flask)
+* PostgreSQL DB
+* Redis cache
+* Background worker
+
 # quart-template
 
 This is my preferred template for new web dev projects using Quart, Alembic, Redis, and Postgres.

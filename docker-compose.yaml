@@ -3,17 +3,17 @@ volumes:
 services:
   database:
     image: postgres:13
-    container_name: myapp-db
+    container_name: rps-db
     ports:
       - 127.0.0.1:5432:5432
     volumes:
       - postgres:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: ${DB_PASS:-myapp}
-      POSTGRES_USER: ${DB_USER:-myapp}
-      POSTGRES_DB: ${DB_NAME:-myapp}
+      POSTGRES_PASSWORD: ${DB_PASS:-rps}
+      POSTGRES_USER: ${DB_USER:-rps}
+      POSTGRES_DB: ${DB_NAME:-rps}
   cache:
     image: redis:latest
-    container_name: myapp-cache
+    container_name: rps-cache
     ports:
       - 127.0.0.1:6379:6379

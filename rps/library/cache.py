@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from redis import Redis
 
-from myapp import config
+from rps import config
 
 
 class Cache(object):

@@ -1,7 +1,7 @@
 import logging
 from logging.handlers import RotatingFileHandler
 
-from myapp import config
+from rps import config
 
 
 def configure_logging():

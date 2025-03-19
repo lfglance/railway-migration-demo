@@ -4,9 +4,9 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from alembic import context
 
-from myapp.factory import db
-from myapp.models import *
-from myapp import config as c
+from rps.factory import db
+from rps.models import *
+from rps import config as c
 
 
 # this is the Alembic Config object, which provides

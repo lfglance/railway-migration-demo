@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from myapp.factory import create_app
+from rps.factory import create_app
 
 
 app = create_app()
