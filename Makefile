@@ -12,7 +12,7 @@ dev:
 	FLASK_SECRETS=config.py QUART_APP="rps.factory:create_app()" uv run quart --debug run
 
 prod:
-	FLASK_SECRETS=config.py QUART_APP="rps.factory:create_app()" uv run uvicorn app:create_app --host 0.0.0.0 --port 8000
+	FLASK_SECRETS=config.py uv run uvicorn app:create_app --factory --host 0.0.0.0 --port 8000
 
 up:
 	docker-compose up -d
