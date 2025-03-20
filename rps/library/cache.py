@@ -7,7 +7,12 @@ from rps import config
 
 class Cache(object):
     def __init__(self):
-        self.redis = Redis(host=config.CACHE_HOST, port=config.CACHE_PORT)
+        self.redis = Redis(
+            host=config.CACHE_HOST,
+            port=config.CACHE_PORT,
+            username=config.CACHE_USER,
+            password=config.CACHE_PASS
+        )
 
     def get_data(self, key_name):
         data = self.redis.get(key_name)

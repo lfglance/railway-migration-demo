@@ -17,6 +17,8 @@ LOG_DIRECTORY = getenv("LOG_DIRECTORY", None)
 # Cache
 CACHE_HOST = getenv("CACHE_HOST", "127.0.0.1")
 CACHE_PORT = getenv("CACHE_PORT", "6379")
+CACHE_USER = getenv("CACHE_USER", None)
+CACHE_PASS = getenv("CACHE_PASS", None)
 
 # Database
 DB_PASS = getenv("DB_PASS", "rps")
@@ -37,10 +39,15 @@ LOGGING_CONFIG = {
         "console": {
             "level": "INFO",
             "class": "logging.StreamHandler",
-            "formatter": "default"
+            "formatter": "default",
+            "stream": "ext://sys.stdout"
         }
     },
     "loggers": {
+        "uvicorn": {
+            "handlers": ["console"],
+            "level": "INFO"
+        },
         "uvicorn.error": {
             "handlers": ["console"],
             "level": "INFO",
