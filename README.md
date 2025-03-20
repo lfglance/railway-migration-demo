@@ -8,6 +8,35 @@ The demo application is backend API which is used by a mobile application. It co
 * Redis cache
 * Background worker
 
+# railway setup
+
+This is the runbook to deploy the system on Railway.
+
+```bash
+alias rw="railway"
+
+# Create new project
+rw init -n lance-rw-demo
+
+# Link project to CLI
+rw link -p lance-rw-demo -t "lance's Projects"
+
+# Add PostgreSQL service
+rw add -d postgres -s postgres
+
+# Add Redis service
+rw add -d redis -s redis
+
+# Add empty service for rps app
+rw add -s rps-api
+
+# Create domain for app service
+rw domain
+
+# Load environment variables for app
+python load_envs.py
+```
+
 # quart-template
 
 This is my preferred template for new web dev projects using Quart, Alembic, Redis, and Postgres.
