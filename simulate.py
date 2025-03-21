@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from random import choice
+from random import choice, randint
 from secrets import token_urlsafe
 
 import requests
@@ -15,7 +15,7 @@ names = [
 ]
 
 if __name__ == "__main__":
-    for i in range(1000):
+    for i in range(randint(100, 200)):
         players = []
         for i in range(2):
             new_user = f"{choice(names)}-{token_urlsafe(6)}"

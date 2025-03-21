@@ -8,6 +8,27 @@ The demo application is backend API which is used by a mobile application. It co
 * Redis cache
 * Background worker
 
+# local app setup
+
+Prepare the local application to simulate a production environment on AWS.
+
+```bash
+# Install python dependencies
+uv sync
+
+# Bring up local containers (postgres, redis)
+docker-compose up -d
+
+# Apply db migrations
+uv run alembic upgrade head
+
+# Start development server
+FLASK_SECRETS=config.py QUART_APP="rps.factory:create_app()" uv run quart --debug run
+
+# Load dummy data
+uv run python simulate.py
+```
+
 # railway setup
 
 This is the runbook to deploy the system on Railway.
@@ -28,13 +49,38 @@ rw add -d postgres -s postgres
 rw add -d redis -s redis
 
 # Add empty service for rps app
-rw add -s rps-api
-
-# Create domain for app service
-rw domain
+rw add -s rps-api -v DEMO=1
 
 # Load environment variables for app
 python load_envs.py
+
+# Create domain for app service with required port
+rw domain -p 8000 # cli bug, fix port
+
+# Deploy application
+rw up -s rps-api
+```
+
+# data migration
+
+```bash
+# Create database export folder
+mkdir -p data
+
+# Dump database
+docker-compose exec database pg_dump -U rps -d rps > data/dump.sql
+
+# Halt writes to source database
+docker-compose exec database psql -U rps -d rps -f halt_writes.sql
+
+# Import variables for Postgres service into terminal session
+export $(rw variables -s Postgres -k)
+
+# Drop existing tables
+psql -h ${RAILWAY_TCP_PROXY_DOMAIN} -p ${RAILWAY_TCP_PROXY_PORT} -U ${PGUSER} -d ${PGDATABASE} -f drop_tables.sql
+
+# Perform restore
+psql -h ${RAILWAY_TCP_PROXY_DOMAIN} -p ${RAILWAY_TCP_PROXY_PORT} -U ${PGUSER} -d ${PGDATABASE} -f data/dump.sql
 ```
 
 # quart-template
