@@ -13,12 +13,14 @@ db = SQLAlchemy()
 
 def create_app():
     from rps.routes import auth, system, game
+    from rps.cli import main as cli
     app = Quart(__name__)
     app.config.from_envvar("FLASK_SECRETS", "config.py")
     app.config["SQLALCHEMY_DATABASE_URI"] = config.SQLALCHEMY_DATABASE_URI
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
     dictConfig(config.LOGGING_CONFIG)
+    app.register_blueprint(cli.bp)
 
     if config.LOG_DIRECTORY:
         logs.configure_logging()

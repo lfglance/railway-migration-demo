@@ -50,15 +50,17 @@ rw add -d redis -s redis
 
 # Add empty service for rps app
 rw add -s rps-api -v DEMO=1
+rw add -s rps-worker -v DEMO=1
 
 # Load environment variables for app
 python load_envs.py
 
 # Create domain for app service with required port
-rw domain -p 8000 # cli bug, fix port
+rw domain -s rps-api -p 8000 # cli bug, fix port
 
 # Deploy application
 rw up -s rps-api
+rw up -s rps-worker
 ```
 
 # data migration
