@@ -52,15 +52,23 @@ rw add -d redis -s redis
 rw add -s rps-api -v DEMO=1
 rw add -s rps-worker -v DEMO=1
 
+# Copy sample env file
+cp rw.example.env rw.env
+
 # Load environment variables for app
 python load_envs.py
 
 # Create domain for app service with required port
 rw domain -s rps-api -p 8000 # cli bug, fix port
 
-# Deploy application
-rw up -s rps-api
-rw up -s rps-worker
+# Specify railway.toml and deploy application
+cp railway.api.toml railway.toml
+rw up -d -s rps-api
+
+cp railway.worker.toml railway.toml
+rw up -d -s rps-worker
+
+cp railway.api.toml railway.toml
 ```
 
 # data migration
@@ -83,25 +91,18 @@ psql -h ${RAILWAY_TCP_PROXY_DOMAIN} -p ${RAILWAY_TCP_PROXY_PORT} -U ${PGUSER} -d
 
 # Perform restore
 psql -h ${RAILWAY_TCP_PROXY_DOMAIN} -p ${RAILWAY_TCP_PROXY_PORT} -U ${PGUSER} -d ${PGDATABASE} -f data/dump.sql
+
+# Repeat above steps as needed
 ```
 
-# quart-template
+# production requirements
 
-This is my preferred template for new web dev projects using Quart, Alembic, Redis, and Postgres.
-
-```bash
-# install dependencies
-uv sync  # make setup
-
-# start postgres/redis
-docker compose up -d  # make up
-
-# generate db migrations
-uv run alembic revision --autogenerate -m "describe schema change"
-
-# run migrations
-uv run alembic upgrade head  # make dev
-
-# run dev web server
-uv run quart run  # make dev
-```
+* cost projections
+* platform security + 2fa
+* CI/CD
+* lower environments
+* multi-region, HA
+* observability
+* centralized logging + notification
+* private VPN
+* backups
